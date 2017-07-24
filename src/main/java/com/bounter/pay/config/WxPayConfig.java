@@ -22,16 +22,16 @@ public class WxPayConfig implements WXPayConfig{
     }
 
     public String getAppID() {
-        return "wxb4a0fca93534a385";
+        return "";
     }
 
     /** 微信支付商户号 */
     public String getMchID() {
-        return "1457119402";
+        return "";
     }
 
     public String getKey() {
-        return "e7d0778fdd001c1095bece06748249b4";
+        return "";
     }
 
     public int getHttpConnectTimeoutMs() {

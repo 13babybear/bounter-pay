@@ -29,7 +29,7 @@ import com.google.zxing.common.BitMatrix;
 public class WxPayController {
 	
 	//异步接收微信支付结果通知的回调地址
-	private static final String notify_url = "http://3707e71f.nat123.cc:46772/wxpay/notify_url";
+	private static final String notify_url = "";
 	
 	private WxPayConfig config;
 	
