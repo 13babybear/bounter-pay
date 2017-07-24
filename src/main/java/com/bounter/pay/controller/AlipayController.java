@@ -23,8 +23,16 @@ import com.bounter.pay.service.AlipayService;
 @Controller
 public class AlipayController {
 	
+	//支付宝支付客户端
+	private AlipayClient alipayClient;
+	
 	@Autowired
 	private AlipayService alipayService;
+	
+	public AlipayController() {
+		//初始化支付客户端
+		alipayClient = new DefaultAlipayClient(AlipayConfig.gatewayUrl, AlipayConfig.app_id, AlipayConfig.merchant_private_key, "json", AlipayConfig.charset, AlipayConfig.alipay_public_key, AlipayConfig.sign_type);
+	}
 	
 	@RequestMapping("/")
 	public String home() {
@@ -128,10 +136,7 @@ public class AlipayController {
 	 */
 	@PostMapping("/alipay/refund")
 	public void refund(AlipayOrder order, HttpServletResponse response) throws Exception {
-		//获得初始化的AlipayClient
-		AlipayClient alipayClient = new DefaultAlipayClient(AlipayConfig.gatewayUrl, AlipayConfig.app_id, AlipayConfig.merchant_private_key, "json", AlipayConfig.charset, AlipayConfig.alipay_public_key, AlipayConfig.sign_type);
-		
-		//设置请求参数
+		//创建退款请求，设置请求参数
 		AlipayTradeRefundRequest alipayRequest = new AlipayTradeRefundRequest();
 		
 		alipayRequest.setBizContent("{\"out_trade_no\":\""+ order.getOut_trade_no() +"\"," 
@@ -140,7 +145,7 @@ public class AlipayController {
 				+ "\"refund_reason\":\""+ order.getRefund_reason() +"\"," 
 				+ "\"out_request_no\":\""+ order.getOut_request_no() +"\"}");
 		
-		//请求
+		//调用SDK发起请求
 		String result = alipayClient.execute(alipayRequest).getBody();
 		
 		//TODO:解析返回对象，更新系统订单状态
